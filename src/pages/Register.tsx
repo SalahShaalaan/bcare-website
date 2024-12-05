@@ -7,6 +7,7 @@ import {
   FaEnvelope,
   FaLock,
 } from "react-icons/fa";
+import { FaPhone } from "react-icons/fa6";
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ export const Register = () => {
     fullName: "",
     email: "",
     password: "",
+    phone: "",
     confirmPassword: "",
     terms: false,
   });
@@ -25,6 +27,11 @@ export const Register = () => {
     const newErrors = {};
     const passwordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const phoneRegex = /^(05)[0-9]{8}$/;
+
+    if (!phoneRegex.test(formData.phone)) {
+      newErrors.phone = "Please enter a valid Saudi phone number (05xxxxxxxx)";
+    }
 
     if (!formData.fullName.trim()) newErrors.fullName = "الاسم بالكامل مطلوب";
     if (!formData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/))
@@ -120,6 +127,26 @@ export const Register = () => {
             />
             {errors.email && (
               <p className="mt-1 text-sm text-red-500">{errors.email}</p>
+            )}
+          </div>
+
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <FaPhone className="text-gray-400" />
+            </div>
+            <input
+              type="tel"
+              placeholder="رقم الهاتف (05xxxxxxxx)"
+              className={`block w-full pl-10 pr-3 py-3 border ${
+                errors.phone ? "border-red-500" : "border-gray-300"
+              } rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+              value={formData.phone}
+              onChange={(e) =>
+                setFormData({ ...formData, phone: e.target.value })
+              }
+            />
+            {errors.phone && (
+              <p className="mt-1 text-sm text-red-500">{errors.phone}</p>
             )}
           </div>
 
